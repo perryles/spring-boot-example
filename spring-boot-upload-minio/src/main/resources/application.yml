@@ -1,0 +1,12 @@
+server:
+  port: 9000
+spring:
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 15MB
+  minio:
+    endpoint: http://1.1.1.1:9000
+    accessKey: Peng
+    secretKey: Peng2004.
+    bucketName: bucket
