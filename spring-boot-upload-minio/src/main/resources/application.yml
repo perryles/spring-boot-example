@@ -6,7 +6,7 @@ spring:
       max-file-size: 5MB
       max-request-size: 15MB
   minio:
-    endpoint: http://1.1.1.1:9000
+    endpoint: http://106.14.10.22:19000
     accessKey: Peng
     secretKey: Peng2004.
     bucketName: bucket

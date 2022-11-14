@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
  * @author PlumRoc
  * @date 2022-11-12
  */
+@Data
 @Configuration
 public class MinIoConfig {
 
@@ -31,6 +32,5 @@ public class MinIoConfig {
                 .credentials(accessKey, secretKey)
                 .build();
     }
-
 
 }

@@ -2,6 +2,7 @@ package com.plumroc.springbootuploadminio.utils;
 
 
 import com.google.common.collect.Lists;
+import com.plumroc.springbootuploadminio.config.MinIoConfig;
 import com.plumroc.springbootuploadminio.dto.MinIoUploadResDTO;
 import io.minio.*;
 import io.minio.http.Method;
@@ -32,6 +33,9 @@ public class MinIoUtils {
 
     @Resource
     private MinioClient minioClient;
+
+    @Resource
+    private MinIoConfig minIoConfig;
 
     private static final String SEPARATOR_DOT = ".";
 
@@ -367,9 +371,9 @@ public class MinIoUtils {
      * @param bucketName    存储桶名称
      * @param directory     储存位置
      * @return 成功对象
-     * @throws Exception
      */
-    public MinIoUploadResDTO upload(MultipartFile multipartFile, String bucketName, String directory) throws Exception {
+    @SneakyThrows
+    public MinIoUploadResDTO upload(MultipartFile multipartFile, String bucketName, String directory) {
         if (!this.bucketExists(bucketName)) {
             boolean flag = this.makeBucket(bucketName);
             if (!flag) {
@@ -379,7 +383,6 @@ public class MinIoUtils {
         InputStream inputStream = multipartFile.getInputStream();
         directory = Optional.ofNullable(directory).orElse("");
         String minFileName = directory + minFileName(Objects.requireNonNull(multipartFile.getOriginalFilename()));
-        System.out.println(minFileName);
         //上传文件到指定目录
         minioClient.putObject(PutObjectArgs.builder()
                 .bucket(bucketName)
@@ -388,8 +391,9 @@ public class MinIoUtils {
                 .stream(inputStream, inputStream.available(), -1)
                 .build());
         inputStream.close();
+        String url = minIoConfig.getEndpoint() + "/" + bucketName + "/" + minFileName;
         // 返回生成文件名、访问路径
-        return new MinIoUploadResDTO(minFileName, getObjectUrl(bucketName, minFileName, DEFAULT_EXPIRY));
+        return new MinIoUploadResDTO(minFileName, url);
     }
 
     /**
