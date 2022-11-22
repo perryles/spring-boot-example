@@ -2,13 +2,13 @@ package com.plumroc.springbootaliyundysms.config;
 
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * @author PlumRoc
  */
 @Data
-@Component
+@Configuration
 public class DySmsConfig {
 
     @Value("${tools.aliyun.access-key}")
