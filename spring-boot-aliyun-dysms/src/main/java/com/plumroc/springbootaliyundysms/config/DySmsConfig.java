@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 public class DySmsConfig {
 
     @Value("${tools.aliyun.access-key}")
-    private String accessKeyId;
+    private String accessKey;
 
     @Value("${tools.aliyun.access-key-secret}")
     private String accessSecret;
