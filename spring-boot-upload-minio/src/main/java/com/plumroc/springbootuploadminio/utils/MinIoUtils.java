@@ -15,6 +15,7 @@ import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayInputStream;
@@ -44,7 +45,7 @@ public class MinIoUtils {
     private static final String SEPARATOR_STR = "";
 
     // 存储桶名称
-    private static final String chunkBucKet = "bucket";
+    private static String chunkBucKet;
 
     /**
      * 不排序
@@ -70,6 +71,12 @@ public class MinIoUtils {
      */
     public final static boolean NOT_DELETE_CHUNK_OBJECT = false;
 
+
+    @PostConstruct
+    private void setChunkBucKet() {
+        chunkBucKet = minIoConfig.getSecretKey();
+    }
+
     /**
      * 检查存储桶是否存在
      *
@@ -78,6 +85,7 @@ public class MinIoUtils {
      */
     @SneakyThrows
     public boolean bucketExists(String bucketName) {
+
         return minioClient.bucketExists(BucketExistsArgs.builder().bucket(bucketName).build());
     }
 
